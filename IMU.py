@@ -4,7 +4,7 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 from Adafruit_BNO055 import BNO055
-from pid_controller.pid import PID
+
 
 # Raspberry Pi configuration with serial UART and RST connected to GPIO 18:
 bno = BNO055.BNO055(serial_port='/dev/serial0', rst=18)
@@ -37,7 +37,7 @@ print('Gyroscope ID:       0x{0:02X}\n'.format(gyro))
 print('Reading BNO055 data, press Ctrl-C to quit...')
 stime = np.array([])
 sHeading = np.array([])
-pid = PID(p=1, i=0, d=2)
+
 try:
     while True:
         # Read the Euler angles for heading, roll, pitch (all in degrees).
@@ -46,8 +46,7 @@ try:
         # Print everything out.
         print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}'.format(
               heading, roll, pitch))
-        pid_output = pid(feedback=heading)
-        print('Controller Output = {0:0.2F}'.format(pid_output))
+        
         newTime = time.clock()
         stime = np.append(stime,newTime)
         sHeading = np.append(sHeading,heading)
